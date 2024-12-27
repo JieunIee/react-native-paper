@@ -7,6 +7,7 @@ import {
   View,
   Animated,
   ColorValue,
+  TouchableOpacity,
 } from 'react-native';
 
 import { getIconButtonColor } from './utils';
@@ -17,20 +18,19 @@ import ActivityIndicator from '../ActivityIndicator';
 import CrossFadeIcon from '../CrossFadeIcon';
 import Icon, { IconSource } from '../Icon';
 import Surface from '../Surface';
-import TouchableRipple from '../TouchableRipple/TouchableRipple';
 
 const PADDING = 8;
 
 type IconButtonMode = 'outlined' | 'contained' | 'contained-tonal';
 
-export type Props = $RemoveChildren<typeof TouchableRipple> & {
+export type Props = $RemoveChildren<typeof TouchableOpacity> & {
   /**
    * Icon to display.
    */
   icon: IconSource;
   /**
    * @supported Available in v5.x with theme version 3
-   * Mode of the icon button. By default there is no specified mode - only pressable icon will be rendered.
+   * Mode of the icon button. By default there is no specified mode - only a pressable icon will be rendered.
    */
   mode?: IconButtonMode;
   /**
@@ -72,7 +72,7 @@ export type Props = $RemoveChildren<typeof TouchableRipple> & {
    */
   onPress?: (e: GestureResponderEvent) => void;
   style?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
-  ref?: React.RefObject<View>;
+  ref?: React.RefObject<TouchableOpacity>;
   /**
    * TestID used for testing purposes
    */
@@ -136,16 +136,15 @@ const IconButton = forwardRef<View, Props>(
 
     const IconComponent = animated ? CrossFadeIcon : Icon;
 
-    const { iconColor, rippleColor, backgroundColor, borderColor } =
-      getIconButtonColor({
-        theme,
-        disabled,
-        selected,
-        mode,
-        customIconColor,
-        customContainerColor,
-        customRippleColor,
-      });
+    const { iconColor, backgroundColor, borderColor } = getIconButtonColor({
+      theme,
+      disabled,
+      selected,
+      mode,
+      customIconColor,
+      customContainerColor,
+      customRippleColor,
+    });
 
     const buttonSize = isV3 ? size + 2 * PADDING : size * 1.5;
 
@@ -177,24 +176,14 @@ const IconButton = forwardRef<View, Props>(
         ]}
         {...(isV3 && { elevation: 0 })}
       >
-        <TouchableRipple
-          borderless
-          centered
+        <TouchableOpacity
           onPress={onPress}
-          rippleColor={rippleColor}
           accessibilityLabel={accessibilityLabel}
           style={[styles.touchable, { borderRadius }]}
-          // @ts-expect-error We keep old a11y props for backwards compat with old RN versions
-          accessibilityTraits={disabled ? ['button', 'disabled'] : 'button'}
-          accessibilityComponentType="button"
-          accessibilityRole="button"
           accessibilityState={{ disabled }}
+          accessibilityRole="button"
           disabled={disabled}
-          hitSlop={
-            TouchableRipple.supported
-              ? { top: 10, left: 10, bottom: 10, right: 10 }
-              : { top: 6, left: 6, bottom: 6, right: 6 }
-          }
+          hitSlop={{ top: 6, left: 6, bottom: 6, right: 6 }}
           testID={testID}
           {...rest}
         >
@@ -203,7 +192,7 @@ const IconButton = forwardRef<View, Props>(
           ) : (
             <IconComponent color={iconColor} source={icon} size={size} />
           )}
-        </TouchableRipple>
+        </TouchableOpacity>
       </Surface>
     );
   }

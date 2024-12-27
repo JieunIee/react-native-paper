@@ -11,9 +11,8 @@ import {
   TextStyle,
   View,
   ViewStyle,
+  TouchableOpacity,
 } from 'react-native';
-
-import color from 'color';
 
 import { ButtonMode, getButtonColors } from './utils';
 import { useInternalTheme } from '../../core/theming';
@@ -24,7 +23,6 @@ import { splitStyles } from '../../utils/splitStyles';
 import ActivityIndicator from '../ActivityIndicator';
 import Icon, { IconSource } from '../Icon';
 import Surface from '../Surface';
-import TouchableRipple from '../TouchableRipple/TouchableRipple';
 import Text from '../Typography/Text';
 
 export type Props = $Omit<React.ComponentProps<typeof Surface>, 'mode'> & {
@@ -176,7 +174,6 @@ const Button = (
     icon,
     buttonColor: customButtonColor,
     textColor: customTextColor,
-    rippleColor: customRippleColor,
     children,
     accessibilityLabel,
     accessibilityHint,
@@ -193,9 +190,7 @@ const Button = (
     labelStyle,
     testID = 'button',
     accessible,
-    background,
     maxFontSizeMultiplier,
-    touchableRef,
     ...rest
   }: Props,
   ref: React.ForwardedRef<View>
@@ -277,9 +272,6 @@ const Button = (
       dark,
     });
 
-  const rippleColor =
-    customRippleColor || color(textColor).alpha(0.12).rgb().string();
-
   const touchableStyle = {
     ...borderRadiusStyles,
     borderRadius: borderRadiusStyles.borderRadius ?? borderRadius,
@@ -335,9 +327,7 @@ const Button = (
       }
       {...(isV3 && { elevation: elevation })}
     >
-      <TouchableRipple
-        borderless
-        background={background}
+      <TouchableOpacity
         onPress={onPress}
         onLongPress={onLongPress}
         onPressIn={hasPassedTouchHandler ? handlePressIn : undefined}
@@ -349,11 +339,8 @@ const Button = (
         accessibilityState={{ disabled }}
         accessible={accessible}
         disabled={disabled}
-        rippleColor={rippleColor}
         style={touchableStyle}
         testID={testID}
-        theme={theme}
-        ref={touchableRef}
       >
         <View style={[styles.content, contentStyle]}>
           {icon && loading !== true ? (
@@ -404,7 +391,7 @@ const Button = (
             {children}
           </Text>
         </View>
-      </TouchableRipple>
+      </TouchableOpacity>
     </Surface>
   );
 };
