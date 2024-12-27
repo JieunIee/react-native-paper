@@ -68,7 +68,6 @@ export type Props = $RemoveChildren<typeof TouchableOpacity> & {
    */
   onPress?: (e: GestureResponderEvent) => void;
   style?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
-  ref?: React.Ref<TouchableOpacity>;
   /**
    * TestID used for testing purposes
    */
