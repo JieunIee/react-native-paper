@@ -68,11 +68,11 @@ export type Props = $RemoveChildren<typeof TouchableOpacity> & {
    */
   accessibilityLabel?: string;
   /**
-   * Function to execute on press.
+   * Function to execute on press.s
    */
   onPress?: (e: GestureResponderEvent) => void;
   style?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
-  ref?: React.RefObject<TouchableOpacity>;
+  ref?: React.Ref<TouchableOpacity>;
   /**
    * TestID used for testing purposes
    */
