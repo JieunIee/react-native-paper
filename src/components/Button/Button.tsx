@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   AccessibilityRole,
   Animated,
-  ColorValue,
   GestureResponderEvent,
   Platform,
   PressableAndroidRippleConfig,
@@ -58,10 +57,6 @@ export type Props = $Omit<React.ComponentProps<typeof Surface>, 'mode'> & {
    * Custom button's text color.
    */
   textColor?: string;
-  /**
-   * Color of the ripple effect.
-   */
-  rippleColor?: ColorValue;
   /**
    * Whether to show a loading indicator.
    */
